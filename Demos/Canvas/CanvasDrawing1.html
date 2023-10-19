@@ -1,0 +1,103 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=L, initial-scale=1.0" />
+        <title>Landscape</title>
+        <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            margin-top: 50px;
+        }
+        h1 {
+            text-align: center;
+        }
+        #canvas {
+            margin: auto;
+            display: block;
+            border: 3px solid silver;
+        }
+        </style>
+    </head>
+    <body>
+        <h1>Canvas Drawing</h1>
+        <canvas id="canvas" width="1000px" height="500px"></canvas>
+
+        <script>
+        // Create variables
+        const canvas = window.document.querySelector('#canvas');
+        const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = "lightblue";
+            ctx.fillRect(0, 0, 1000, 500);
+
+
+        ctx.beginPath(); //Grass
+            ctx.fillStyle = "#00ac20";
+            ctx.fillRect(0, 380, 1000, 500);
+
+
+            // Left Cloud
+        ctx.beginPath();
+            ctx.fillStyle = 'white';
+            ctx.arc(200, 100, 50, 0, Math.PI * 2);
+            ctx.fill(); // Color it in
+
+        ctx.beginPath();
+            ctx.fillStyle = 'white';
+            ctx.arc(280, 80, 80, 0, Math.PI *2);
+            ctx.fill(); // Color it in
+
+        ctx.beginPath();
+            ctx.fillStyle = 'white';
+            ctx.arc(350, 100, 50, 0, Math.PI * 2);
+            ctx.fill(); // Color it in
+
+
+            // Right Cloud
+        ctx.beginPath();
+            ctx.fillStyle = 'white';
+            ctx.arc(700, 150, 50, 0, Math.PI * 2);
+            ctx.fill(); // Color it in
+
+            ctx.beginPath();
+            ctx.fillStyle = 'white';
+            ctx.arc(780, 130, 80, 0, Math.PI *2);
+            ctx.fill(); // Color it in
+
+        ctx.beginPath();
+            ctx.fillStyle = 'white';
+            ctx.arc(850, 150, 50, 0, Math.PI * 2);
+            ctx.fill(); // Color it in
+
+
+        // Base of house
+        ctx.beginPath();
+            ctx.fillStyle = "darkred";
+            ctx.fillRect(400, 250, 170, 200);
+            ctx.stroke();
+
+        // Roof
+        ctx.beginPath();
+            ctx.fillStyle = "blue";
+            ctx.moveTo(480, 185);
+            ctx.lineTo(400, 250);
+            ctx.lineTo(570, 250);
+            ctx.closePath();
+            ctx.fill();
+            ctx.stroke();
+
+            // Door
+        ctx.beginPath();
+            ctx.fillStyle = "brown";
+            ctx.fillRect(455, 360, 60, 80);
+            ctx.stroke();
+
+
+        </script>
+    </body>
+    </html>
