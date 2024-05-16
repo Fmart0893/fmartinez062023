@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AF001WAD</title>
+</head>
+<style>
+    body
+    {
+        background-color: yellow;
+        color: white;
+    }
+    #container
+    {
+        width:80%;
+        min-height: 200px;
+        max-width: 1200px;
+        background-color: red;
+        margin: auto;
+    }
+    header
+    {
+        min-height: 150px;
+        background-color: purple;
+    }
+    nav
+    {
+        min-height: 500px;
+
+        background-color: blue;
+        flex: 1;
+    }
+    main
+    {
+        min-height: 500px;
+        background-color: green;
+        flex: 2;
+    }
+    article
+    {
+        border: 1px solid black;
+        min-height: 200px;
+        background-color: lightblue;
+        flex-basis: 40%;
+    }
+    footer
+    {
+        min-height: 150px;
+        background-color: orange;
+    }
+    #flexbox
+    {
+        border: 5px solid black;
+        display: flex;
+    }
+    #flexbox002
+    {
+        display: flex;
+        border: solid 2px red;
+        justify-content: center;
+    }
+</style>
+<body>
+<div id="container">
+<header>Header</header>
+        <div id="flexbox">
+                <nav>Navigation - flex 1</nav>
+                <main>Main - flex 3</main>
+        </div>
+        <div id="flexbox002">
+                <article>Article - flex 1</article>
+                <article>Article - flex 1</article>
+                <article>Article - flex 1</article>
+        </div>
+<footer>Footer</footer>
+</div>
+</body>
+</html>

@@ -1,15 +1,24 @@
-
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Paintbrush</title>
+    <title>Paintbrush mobile application</title>
     <style>
       * {
         box-sizing: border-box;
         margin: 0;
         padding: 0;
+      }
+      /* Mobile */
+      html
+      {
+        overflow:hidden;
+      }
+      #eraser,#clear,#undo
+      {
+        /* Disable Double tap */
+        touch-action:manipulation;
       }
       #canvas {
         border: 1px solid black;
@@ -64,6 +73,8 @@
       let brushColor = "#000000";
       let painting = false;
       let brushSize = 15;
+      let undoArray = []; // To capture canvas snapshots (images data) of strokes
+      let undoIndex = -1; // To track undo array index value
 
       // Create canvas and assign variables
       const canvas = window.document.querySelector("#canvas");
@@ -78,6 +89,7 @@
       const erase = window.document.querySelector("#eraser");
       // Clear variable
       const clear = window.document.querySelector("#clear");
+
       // Undo Var
       const undo = window.document.querySelector("#undo");
 
@@ -103,8 +115,18 @@
       rangePicker.addEventListener("input", function (e) {
         brushSize = e.target.value;
       });
+
+      //Mouse Events/ Touch Events
+      /*
+      mousdown/touchstart -starour drawing 
+      mousemove/touchmove-draw
+      mouseup/moueseout/toucend - stop drawing
+      */
+
       // Add several event listeners to the canvas
       canvas.addEventListener("mousedown", function (e) {
+        e.preventDefault// Prevent text selection and dragging
+
         painting = true;
         // Begin line
         ctx.moveTo(mouse.x, mouse.y);
@@ -112,15 +134,45 @@
       });
 
       canvas.addEventListener("mousemove", function (e) {
+        e.preventDefault// Prevent text selection and dragging
         mouse.x = e.x;
         mouse.y = e.y;
         draw();
       });
       canvas.addEventListener("mouseup", function (e) {
+        e.preventDefault// Prevent text selection and dragging
         painting = false;
+
+        e.preventDefault;
+        captureImageData(e);
+
         ctx.beginPath();
       });
 
+      // Mobile Events
+      canvas.addEventListener("touchstart", function (e) {
+        e.preventDefault// Prevent finger text selection and dragging
+        painting = true;
+        // Begin line
+        ctx.moveTo(e.pageX, e.pagey);
+        //draw();
+      });
+
+      canvas.addEventListener("touchmove", function (e) {
+        e.preventDefault// Prevent finger text selection and dragging
+        mouse.x = e.pageX;
+        mouse.y = e.pageY;
+        draw();
+      });
+      canvas.addEventListener("touchend", function (e) {
+        e.preventDefault// Prevent finger text selection and dragging
+        painting = false;
+
+        e.preventDefault;
+        captureImageData(e);
+
+        ctx.beginPath();
+      });
       // Create named function to draw
       function draw() {
         // console.log('drawing');
@@ -143,27 +195,25 @@
 
 
 
-
-
-
-
-
       
 
       erase.addEventListener("click", function (e) {
         brushColor = canvasColor;
+        colorPicker=canvasColor;
       });
 
       clear.addEventListener("click", function (e) {
         // alert("Hello!");
-        ctx.fillStyle = canvasColor;
-
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
+       
+        clearCanvas();// Simplified clearing
       });
-      undo.addEventListener("click"), function (e) 
+
+      undo.addEventListener("click", function (e) 
       {
-        window.alert("true")
-      };
+        // alert("Undo!");
+        // call undoLast Function
+        undoLast();
+      });
 
 
 
@@ -183,6 +233,46 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
       });
+
+
+      function captureImageData(e)
+      {
+        //capture image data for desktop and mobile //
+          if(e.type == "mouseup"|| e.type =="touchend")
+          {
+          undoArray.push( ctx.getImageData(0,0,canvas.width, canvas.height)     );
+          undoIndex = undoIndex + 1 ; //undoIndex++
+
+          //console.log(undoIndex);
+          }
+      }
+
+      function undoLast()
+      {
+        if(undoIndex <= 0)
+        {
+          clearCanvas();
+        }
+        else
+        {
+          undoIndex = undoIndex -1; //undoIndex--;
+          undoArray.pop(); //Delete last Value in array (last image captured)
+          ctx.putImageData(   undoArray[undoIndex], 0,0,); // Put previous image data oon canvas
+          console.log(undoIndex);
+        }
+      }
+
+      function clearCanvas()
+      {
+
+        // Clear canvas
+        ctx.fillStyle = canvasColor;
+        ctx.fillRect(0,0, canvas.width, canvas.height);
+
+        //Resest undo array values
+        undoArray = [];
+        undoIndex = -1;
+      }
     </script>
   </body>
 </html>
